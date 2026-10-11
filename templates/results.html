@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prediction Results</title>
+   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="/static/style.css">
+<style>
+/* One large container for both charts */
+.results-charts {
+    width: 90%;
+    max-width: 1100px;
+    margin: 30px auto;
+    padding: 25px;
+    box-sizing: border-box;
+    background: #071426;
+    border: 1px solid #12b8ff;
+    border-radius: 18px;
+    color: #edf7ff;
+}
+
+/* Main heading */
+.charts-main-title {
+    text-align: center;
+    color: #54f1ff;
+    margin-bottom: 25px;
+}
+
+/* Two charts inside the same container */
+.charts-inner {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+}
+
+/* Individual chart panels */
+.result-chart-panel {
+    min-width: 0;
+    padding: 18px;
+    box-sizing: border-box;
+    background: #10243c;
+    border: 1px solid rgba(84, 241, 255, 0.25);
+    border-radius: 14px;
+}
+
+.result-chart-panel h3 {
+    color: #54f1ff;
+    text-align: center;
+}
+
+.result-chart-area {
+    position: relative;
+    width: 100%;
+    height: 270px;
+}
+
+.bill-amount {
+    color: #edf7ff;
+    text-align: center;
+    font-weight: bold;
+}
+
+@media (max-width: 700px) {
+    .charts-inner {
+        grid-template-columns: 1fr;
+    }
+
+    .results-charts {
+        width: 95%;
+        padding: 15px;
+    }
+}
+</style>
+</head>
+
+<body>
+    
+
+<nav class="main-nav">
+    <a href="/">Home</a>
+    <a href="/prediction">Prediction</a>
+    <a href="/dashboard">Dashboard</a>
+    <a href="/machine-learning">Machine Learning</a>
+    <a href="/about">About</a>
+
+    <span class="nav-user">
+        Hi, {{ request.session.get("username", "User") }}!
+    </span>
+
+    <form action="/logout" method="post" class="logout-form">
+        <button type="submit" class="logout-btn">Logout</button>
+    </form>
+</nav>
+
+
+
+    <main class="form-container">
+        <h1>Prediction Results</h1>
+        <p>Your model-generated estimates are shown below.</p>
+
+        <section class="result-grid">
+            <article class="card">
+                <h3>Predicted Usage</h3>
+                <p class="result-value">{{ "%.2f"|format(usage) }} kWh</p>
+            </article>
+            <article class="card">
+                <h3>Estimated Bill</h3>
+                <p class="result-value">₹{{ "%.2f"|format(bill) }}</p>
+            </article>
+        </section>
+
+        <article class="card">
+            <h3>Usage Comparison</h3>
+            {% if difference > 0.01 %}
+                <p>Usage is {{ "%.2f"|format(difference) }} kWh higher than the previous month.</p>
+            {% elif difference < -0.01 %}
+                <p>Usage is {{ "%.2f"|format(difference|abs) }} kWh lower than the previous month.</p>
+            {% else %}
+                <p>Usage is approximately equal to the previous month.</p>
+            {% endif %}
+        </article>
+
+        <p class="note">
+            These are estimates from your trained machine-learning models,
+            not official TNEB bill calculations.
+        </p>
+
+        <a href="/prediction" class="button">Try Again</a>
+        <a href="/" class="button secondary">Home</a>
+    </main>
+
+<div class="results-charts">
+
+    <h2 class="charts-main-title">Electricity Analysis</h2>
+
+    <div class="charts-inner">
+
+        <div class="result-chart-panel">
+            <h3>Electricity Usage Analysis</h3>
+            <div class="result-chart-area">
+                <canvas id="usageChart"></canvas>
+            </div>
+        </div>
+
+        <div class="result-chart-panel">
+            <h3>Estimated Electricity Bill</h3>
+            <div class="result-chart-area">
+                <canvas id="billChart"></canvas>
+            </div>
+            <p class="bill-amount">
+                Estimated Bill: ₹{{ "%.2f"|format(bill) }}
+            </p>
+        </div>
+
+    </div>
+</div>
+
+
+<script>
+    const previousUsage = Number("{{ previous_usage }}");
+    const predictedUsage = Number("{{ usage }}");
+    const predictedBill = Number("{{ bill }}");
+
+    // Electricity usage comparison chart
+    new Chart(document.getElementById("usageChart"), {
+        type: "bar",
+        data: {
+            labels: ["Previous Month", "Predicted Month"],
+            datasets: [{
+                label: "Electricity Usage (kWh)",
+                data: [previousUsage, predictedUsage],
+                backgroundColor: ["#12B8FF", "#54F1FF"],
+                borderRadius: 8,
+                maxBarThickness: 65
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    labels: { color: "#EDF7FF" }
+                }
+            },
+            scales: {
+                x: {
+                    ticks: { color: "#A8BDD2" },
+                    grid: { display: false }
+                },
+                y: {
+                    beginAtZero: true,
+                    ticks: { color: "#A8BDD2" },
+                    grid: { color: "rgba(168,189,210,0.15)" },
+                    title: {
+                        display: true,
+                        text: "Usage (kWh)",
+                        color: "#54F1FF"
+                    }
+                }
+            }
+        }
+    });
+
+    // Estimated electricity bill chart
+    new Chart(document.getElementById("billChart"), {
+        type: "doughnut",
+        data: {
+            labels: ["Estimated Bill", "Display Remainder"],
+            datasets: [{
+                data: [Math.max(predictedBill, 0), 1],
+                backgroundColor: ["#12B8FF", "#243B53"],
+                borderWidth: 0,
+                hoverOffset: 6
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            cutout: "72%",
+            plugins: {
+                legend: {
+                    position: "bottom",
+                    labels: {
+                        color: "#EDF7FF",
+                        padding: 18
+                    }
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            if (context.dataIndex === 0) {
+                                return "Estimated Bill: ₹" +
+                                    predictedBill.toFixed(2);
+                            }
+                            return "Display remainder";
+                        }
+                    }
+                }
+            }
+        }
+    });
+</script>
+
+    <footer>TNEB Electricity Prediction</footer>
+</body>
+</html>

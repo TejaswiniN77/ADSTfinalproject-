@@ -1,0 +1,261 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Electricity Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="/static/style.css">
+
+    <style>
+       
+.dashboard {
+    max-width: 1000px;
+    margin: 25px auto;
+    padding: 20px;
+    color: var(--text);
+}
+
+.dashboard h1 {
+    color: var(--cyan);
+}
+
+.dashboard > p {
+    color: var(--muted);
+}
+
+.dashboard-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 15px;
+    margin: 20px 0;
+}
+
+.dashboard-card {
+    background: linear-gradient(
+        145deg,
+        rgba(20, 46, 73, .96),
+        rgba(12, 29, 49, .96)
+    );
+    color: var(--text);
+    padding: 20px;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, .18);
+}
+
+.dashboard-card p {
+    color: var(--muted);
+    margin-bottom: 8px;
+}
+
+.dashboard-card h2 {
+    color: var(--cyan);
+    margin: 0;
+    overflow-wrap: anywhere;
+}
+
+.dashboard-chart {
+    max-width: 600px;
+    height: 280px;
+    position: relative;
+    margin: 25px auto;
+    padding: 18px;
+    box-sizing: border-box;
+    background: rgba(16, 36, 60, .96);
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, .18);
+}
+
+.dashboard-chart h3 {
+    color: var(--cyan);
+    text-align: center;
+    margin-top: 0;
+}
+
+.dashboard-chart canvas {
+    max-width: 100%;
+    max-height: 220px;
+}
+
+.dashboard-button {
+    display: inline-block;
+    padding: 12px 18px;
+    background: linear-gradient(135deg, #087fe8, #12b8ff);
+    color: #071426;
+    font-weight: 600;
+    border-radius: 8px;
+    text-decoration: none;
+    margin: 5px;
+    transition: transform .2s, box-shadow .2s;
+}
+
+.dashboard-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 18px rgba(18, 184, 255, .25);
+}
+
+.notice {
+    background: rgba(18, 184, 255, .08);
+    color: var(--text);
+    padding: 15px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    margin-top: 20px;
+    line-height: 1.7;
+}
+
+.notice strong {
+    color: var(--cyan);
+}
+
+@media (max-width: 600px) {
+    .dashboard {
+        padding: 15px;
+    }
+
+    .dashboard-chart {
+        height: 260px;
+        padding: 12px;
+    }
+
+    .dashboard-button {
+        margin: 5px 0;
+    }
+}
+
+    </style>
+</head>
+<body>
+
+
+<nav class="main-nav">
+    <a href="/">Home</a>
+    <a href="/prediction">Prediction</a>
+    <a href="/dashboard">Dashboard</a>
+    <a href="/machine-learning">Machine Learning</a>
+    <a href="/about">About</a>
+
+    <span class="nav-user">
+        Hi, {{ request.session.get("username", "User") }}!
+    </span>
+
+    <form action="/logout" method="post" class="logout-form">
+        <button type="submit" class="logout-btn">Logout</button>
+    </form>
+</nav>
+
+
+<main class="dashboard">
+    <h1>Electricity Analytics Dashboard</h1>
+    <p>Monitor your electricity usage and predicted bill.</p>
+
+    <div class="dashboard-cards">
+        <div class="dashboard-card">
+            <p>Previous Usage</p>
+            <h2>
+                {% if latest.get("previous_usage") is not none %}
+                    {{ latest.get("previous_usage") }} kWh
+                {% else %}
+                    --
+                {% endif %}
+            </h2>
+        </div>
+
+        <div class="dashboard-card">
+            <p>Predicted Usage</p>
+            <h2>
+                {% if latest.get("usage") is not none %}
+                    {{ latest.get("usage") }} kWh
+                {% else %}
+                    --
+                {% endif %}
+            </h2>
+        </div>
+
+        <div class="dashboard-card">
+            <p>Estimated Bill</p>
+            <h2>
+                {% if latest.get("bill") is not none %}
+                    ₹{{ latest.get("bill") }}
+                {% else %}
+                    --
+                {% endif %}
+            </h2>
+        </div>
+    </div>
+
+    {% if latest %}
+        <div class="dashboard-chart">
+            <h3>Previous vs Predicted Usage</h3>
+            <canvas id="usageChart"></canvas>
+        </div>
+
+        <div class="notice">
+            {% if latest.get("usage", 0) > latest.get("previous_usage", 0) %}
+                <strong>Higher consumption predicted.</strong>
+                Consider checking appliance usage and electricity habits.
+            {% else %}
+                <strong>Consumption is not predicted to increase.</strong>
+                Continue monitoring your usage.
+            {% endif %}
+        </div>
+    {% else %}
+        <div class="notice">
+            <strong>No prediction yet.</strong>
+            Submit your first prediction to see your usage, estimated bill,
+            comparison chart and consumption alert here.
+        </div>
+    {% endif %}
+
+    <div style="text-align:center; margin-top:25px;">
+        <a class="dashboard-button" href="/prediction">
+            Make a Prediction
+        </a>
+        <a class="dashboard-button" href="/machine-learning">
+            Explore Machine Learning
+        </a>
+    </div>
+</main>
+
+{% if latest %}
+<script>
+    const previousUsage = Number({{ latest.get("previous_usage", 0) | tojson }});
+    const predictedUsage = Number({{ latest.get("usage", 0) | tojson }});
+
+    new Chart(document.getElementById("usageChart"), {
+        type: "bar",
+        data: {
+            labels: ["Previous Month", "Predicted Month"],
+            datasets: [{
+                label: "Usage (kWh)",
+                data: [previousUsage, predictedUsage],
+                backgroundColor: ["#60a5fa", "#2563eb"],
+                borderRadius: 6
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { display: false }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: "Usage in kWh"
+                    }
+                }
+            }
+        }
+    });
+</script>
+{% endif %}
+
+</body>
+</html>

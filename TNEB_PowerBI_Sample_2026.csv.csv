@@ -1,0 +1,13 @@
+Date,Month,Electricity_Usage_kWh,Electricity_Bill,Temperature_C,Humidity_Percent,Rainfall_mm,Season,Number_of_People,Fan_Usage_Hours,Refrigerator_Hours,Washing_Machine_Usage_Hours,Previous_Month_Usage_kWh,TV_Usage_Hours,AC_Usage_Hours
+01-01-2026,January,185,1180,24,68,18,Winter,4,5,24,4,180,4,4
+01-02-2026,February,172,1105,25,65,12,Winter,4,5,24,4,185,4,4
+01-03-2026,March,195,1245,27,62,8,Summer,4,6,24,5,172,5,5
+01-04-2026,April,210,1340,30,58,5,Summer,4,7,24,5,195,5,5
+01-05-2026,May,225,1435,32,55,3,Summer,4,8,24,6,210,6,6
+01-06-2026,June,215,1375,31,60,12,Summer,4,8,24,5,225,5,5
+01-07-2026,July,245,1567,29,72,85,Monsoon,4,7,24,6,215,6,6
+01-08-2026,August,238,1525,29,75,110,Monsoon,4,7,24,6,245,6,6
+01-09-2026,September,220,1405,28,78,145,Monsoon,4,6,24,5,238,5,5
+01-10-2026,October,205,1310,27,76,120,Monsoon,4,6,24,5,220,5,5
+01-11-2026,November,190,1215,25,70,55,Winter,4,5,24,4,205,4,4
+01-12-2026,December,180,1150,24,68,22,Winter,4,5,24,4,190,4,4

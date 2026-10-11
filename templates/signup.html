@@ -1,0 +1,112 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up | TNEB Electricity Prediction</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <style>
+        .auth-card {
+            max-width: 420px;
+            margin: 50px auto;
+            padding: 30px;
+            border-radius: 16px;
+            background: #111d35;
+            color: white;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+        }
+        .auth-card h1 { text-align: center; margin-bottom: 10px; }
+        .auth-card p { text-align: center; color: #b9c6da; }
+        .auth-card label {
+            display: block;
+            margin-top: 16px;
+            margin-bottom: 8px;
+        }
+        .auth-card input {
+            box-sizing: border-box;
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #40506b;
+            border-radius: 8px;
+            background: #fff;
+            color: #172033;
+        }
+        .auth-card button {
+            width: 100%;
+            margin-top: 24px;
+            padding: 13px;
+            border: none;
+            border-radius: 8px;
+            background: #16c7d9;
+            color: #071626;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .auth-card .auth-error {
+            color: #ffb8b8;
+            background: #48252e;
+            padding: 10px;
+            border-radius: 6px;
+        }
+        .auth-card a { color: #49dbe7; }
+        .auth-card .auth-link { margin-top: 22px; }
+    </style>
+</head>
+<body>
+
+    <div class="auth-card">
+        <h1>Create Account</h1>
+        <p>Join us to estimate your electricity consumption.</p>
+
+        {% if error %}
+            <p class="auth-error">{{ error }}</p>
+        {% endif %}
+
+        <form action="/signup" method="post">
+            <label for="username">Choose Username</label>
+            <input
+                type="text"
+                id="username"
+                name="username"
+                minlength="3"
+                maxlength="30"
+                required
+                autocomplete="username"
+            >
+
+            <label for="password">Create Password</label>
+            <input
+                type="password"
+                id="password"
+                name="password"
+                minlength="8"
+                maxlength="128"
+                required
+                autocomplete="new-password"
+            >
+
+            <label for="confirm_password">Confirm Password</label>
+            <input
+                type="password"
+                id="confirm_password"
+                name="confirm_password"
+                minlength="8"
+                maxlength="128"
+                required
+                autocomplete="new-password"
+            >
+
+            <button type="submit">Sign Up</button>
+        </form>
+
+        <p class="auth-link">
+            Already have an account?
+            <a href="/login">Login here</a>
+        </p>
+
+        <p><a href="/">Back to Home</a></p>
+    </div>
+
+</body>
+</html>

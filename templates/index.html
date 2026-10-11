@@ -1,0 +1,448 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TNEB | Smart Electricity Prediction</title>
+    <link rel="stylesheet" href="/static/style.css">
+
+    <style>
+        .home-page {
+            color: var(--text);
+        }
+
+        .home-welcome {
+            padding: 60px 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 35px;
+            background:
+                radial-gradient(circle at 85% 40%,
+                    rgba(18,184,255,.15), transparent 35%);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .home-welcome-content {
+            max-width: 650px;
+        }
+
+        .home-label {
+            color: var(--cyan);
+            font-size: 12px;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+
+        .home-welcome h1 {
+            font-size: clamp(36px, 4.5vw, 55px);
+            line-height: 1.2;
+            margin: 18px 0;
+        }
+
+        .home-welcome h1 span {
+            color: var(--cyan);
+        }
+
+        .home-welcome p {
+            color: var(--muted);
+            font-size: 15px;
+            line-height: 1.9;
+            max-width: 590px;
+            margin-bottom: 25px;
+        }
+
+        .home-electric-icon {
+            min-width: 190px;
+            width: 190px;
+            height: 190px;
+            border: 1px solid var(--border);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 90px;
+            color: var(--cyan);
+            background: rgba(18,184,255,.06);
+            box-shadow: 0 0 40px rgba(18,184,255,.10);
+        }
+
+        .home-section {
+            padding: 42px 8%;
+        }
+
+        .home-section-title {
+            margin-bottom: 25px;
+        }
+
+        .home-section-title small {
+            color: var(--cyan);
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+
+        .home-section-title h2 {
+            font-size: 29px;
+            margin: 10px 0;
+        }
+
+        .home-section-title p {
+            color: var(--muted);
+            line-height: 1.8;
+            max-width: 700px;
+        }
+
+        .home-feature-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 20px;
+        }
+
+        .home-feature {
+            padding: 24px;
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            transition: transform .2s, border-color .2s;
+        }
+
+        .home-feature:hover {
+            transform: translateY(-4px);
+            border-color: var(--cyan);
+        }
+
+        .home-feature-icon {
+            font-size: 30px;
+            margin-bottom: 14px;
+        }
+
+        .home-feature h3 {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: var(--cyan);
+        }
+
+        .home-feature p {
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.8;
+            margin-bottom: 16px;
+        }
+
+        .home-text-link {
+            color: var(--cyan);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .home-text-link:hover {
+            text-decoration: underline;
+        }
+
+        .home-benefits {
+            background: rgba(16,36,60,.4);
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .home-benefit-list {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 18px 35px;
+        }
+
+        .home-benefit {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+        }
+
+        .home-check {
+            color: var(--cyan);
+            font-size: 21px;
+        }
+
+        .home-benefit h3 {
+            font-size: 16px;
+            margin-bottom: 6px;
+        }
+
+        .home-benefit p {
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+        .home-bottom {
+            margin: 35px 8% 50px;
+            padding: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 25px;
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            background: linear-gradient(
+                110deg,
+                rgba(18,184,255,.08),
+                rgba(16,36,60,.85)
+            );
+        }
+
+        .home-bottom h2 {
+            font-size: 23px;
+            margin-bottom: 9px;
+        }
+
+        .home-bottom p {
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.7;
+            max-width: 650px;
+        }
+
+        .home-footer {
+            text-align: center;
+            padding: 22px;
+            border-top: 1px solid var(--border);
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        .home-footer strong {
+            color: var(--cyan);
+        }
+
+        @media (max-width: 800px) {
+            .home-welcome {
+                padding: 45px 6%;
+            }
+
+            .home-electric-icon {
+                min-width: 135px;
+                width: 135px;
+                height: 135px;
+                font-size: 65px;
+            }
+
+            .home-feature-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .home-bottom {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 560px) {
+            .home-welcome {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .home-electric-icon {
+                align-self: center;
+            }
+
+            .home-feature-grid,
+            .home-benefit-list {
+                grid-template-columns: 1fr;
+            }
+
+            .home-section {
+                padding: 35px 6%;
+            }
+
+            .home-bottom {
+                margin: 25px 6% 35px;
+                padding: 22px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+<div class="home-page">
+
+    <!-- Navigation -->
+    <nav class="main-nav">
+        <a href="/">Home</a>
+        <a href="/prediction">Prediction</a>
+        <a href="/dashboard">Dashboard</a>
+        <a href="/machine-learning">Machine Learning</a>
+        <a href="/about">About</a>
+
+        <span class="nav-user">
+            Hi, {{ request.session.get("username", "User") }}!
+        </span>
+
+        <form action="/logout" method="post" class="logout-form">
+            <button type="submit" class="logout-btn">Logout</button>
+        </form>
+    </nav>
+
+    <!-- Welcome section -->
+    <header class="home-welcome">
+        <div class="home-welcome-content">
+            <span class="home-label">⚡ SMART ENERGY ANALYTICS</span>
+
+            <h1>
+                Electricity Usage<br>
+                <span>&amp; Bill Prediction</span>
+            </h1>
+
+            <p>
+                Welcome to your smart electricity analysis platform.
+                Explore household energy consumption, estimate
+                electricity bills, and understand how machine learning
+                can help analyse your energy usage.
+            </p>
+
+            <a href="/prediction" class="button">
+                Start Prediction →
+            </a>
+        </div>
+
+        <div class="home-electric-icon">⚡</div>
+    </header>
+
+    <!-- Main features -->
+    <section class="home-section">
+        <div class="home-section-title">
+            <small>YOUR ENERGY TOOLS</small>
+            <h2>Explore the Platform</h2>
+            <p>
+                Everything you need to explore electricity usage
+                and predictions in one place.
+            </p>
+        </div>
+
+        <div class="home-feature-grid">
+
+            <article class="home-feature">
+                <div class="home-feature-icon">⚡</div>
+                <h3>Usage Prediction</h3>
+                <p>
+                    Enter household and environmental details to
+                    estimate electricity consumption in kWh.
+                </p>
+                <a href="/prediction" class="home-text-link">
+                    Predict usage →
+                </a>
+            </article>
+
+            <article class="home-feature">
+                <div class="home-feature-icon">📊</div>
+                <h3>Energy Dashboard</h3>
+                <p>
+                    Explore the available charts and compare
+                    electricity usage with previous consumption.
+                </p>
+                <a href="/dashboard" class="home-text-link">
+                    View dashboard →
+                </a>
+            </article>
+
+            <article class="home-feature">
+                <div class="home-feature-icon">🤖</div>
+                <h3>Machine Learning</h3>
+                <p>
+                    Discover how trained machine learning models
+                    generate electricity usage and bill estimates.
+                </p>
+                <a href="/machine-learning" class="home-text-link">
+                    Explore the model →
+                </a>
+            </article>
+
+        </div>
+    </section>
+
+    <!-- Benefits -->
+    <section class="home-section home-benefits">
+        <div class="home-section-title">
+            <small>WHY USE THIS SYSTEM?</small>
+            <h2>Make Energy Information Easier to Understand</h2>
+            <p>
+                The platform helps users explore consumption data
+                and understand prediction results.
+            </p>
+        </div>
+
+        <div class="home-benefit-list">
+
+            <div class="home-benefit">
+                <span class="home-check">✓</span>
+                <div>
+                    <h3>Understand Electricity Usage</h3>
+                    <p>
+                        Explore estimated consumption based on
+                        household usage details.
+                    </p>
+                </div>
+            </div>
+
+            <div class="home-benefit">
+                <span class="home-check">✓</span>
+                <div>
+                    <h3>Plan Your Monthly Expenses</h3>
+                    <p>
+                        Review an estimated electricity bill to
+                        help you understand possible costs.
+                    </p>
+                </div>
+            </div>
+
+            <div class="home-benefit">
+                <span class="home-check">✓</span>
+                <div>
+                    <h3>Explore Data Visually</h3>
+                    <p>
+                        Use available charts to make consumption
+                        patterns easier to review.
+                    </p>
+                </div>
+            </div>
+
+            <div class="home-benefit">
+                <span class="home-check">✓</span>
+                <div>
+                    <h3>Learn About Machine Learning</h3>
+                    <p>
+                        See how data-driven models can be used
+                        to estimate energy consumption.
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Final action -->
+    <section class="home-bottom">
+        <div>
+            <h2>Ready to Check Your Electricity Usage?</h2>
+            <p>
+                Start a prediction and explore the estimated
+                consumption and bill based on your inputs.
+                Results are estimates, not official TNEB bills.
+            </p>
+        </div>
+
+        <a href="/prediction" class="button">
+            Try It Now →
+        </a>
+    </section>
+
+    <!-- Footer -->
+    <footer class="home-footer">
+        <strong>TNEB Electricity Usage &amp; Bill Prediction</strong>
+        <p>Smart Energy Analytics | Academic Project</p>
+    </footer>
+
+</div>
+</body>
+</html>

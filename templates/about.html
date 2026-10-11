@@ -1,0 +1,656 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About | TNEB Electricity Prediction</title>
+    <link rel="stylesheet" href="/static/style.css">
+
+    <!-- About-page-only styling -->
+    <style>
+        .about-site {
+            color: var(--text);
+        }
+
+        .about-site a {
+            text-decoration: none;
+        }
+
+        .about-site .about-hero {
+            min-height: 390px;
+            display: grid;
+            grid-template-columns: 1.1fr .9fr;
+            align-items: center;
+            gap: 35px;
+            padding: 55px 8%;
+            background:
+                linear-gradient(90deg,
+                    rgba(7,20,38,.98),
+                    rgba(7,20,38,.83) 55%,
+                    rgba(7,20,38,.48)),
+                url("https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?auto=format&fit=crop&w=1600&q=80")
+                center/cover;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .about-site .about-label {
+            color: var(--cyan);
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: 3px;
+        }
+
+        .about-site .about-hero h1 {
+            margin: 17px 0;
+            color: var(--text);
+            font-size: clamp(34px, 4.5vw, 55px);
+            line-height: 1.2;
+        }
+
+        .about-site .about-hero h1 span {
+            color: var(--cyan);
+        }
+
+        .about-site .about-hero p {
+            max-width: 560px;
+            color: var(--muted);
+            line-height: 1.9;
+        }
+
+        .about-site .about-energy {
+            text-align: center;
+            font-size: 130px;
+            color: var(--cyan);
+            text-shadow: 0 0 35px rgba(84,241,255,.6);
+        }
+
+        .about-site .about-energy small {
+            display: block;
+            color: var(--text);
+            font-size: 14px;
+            letter-spacing: 2px;
+            text-shadow: none;
+        }
+
+        .about-site .about-stats {
+            max-width: 1100px;
+            margin: -1px auto 0;
+            padding: 28px 22px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .about-site .about-stat {
+            padding: 12px 22px;
+            border-left: 2px solid var(--cyan);
+        }
+
+        .about-site .about-stat strong {
+            display: block;
+            color: var(--cyan);
+            font-size: 19px;
+        }
+
+        .about-site .about-stat span {
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        .about-site .about-section {
+            padding: 65px 8%;
+        }
+
+        .about-site .about-section-heading {
+            margin-bottom: 35px;
+        }
+
+        .about-site .about-section-heading > span {
+            color: var(--cyan);
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 3px;
+        }
+
+        .about-site .about-section-heading h2 {
+            margin-top: 10px;
+            color: var(--text);
+            font-size: clamp(27px, 3vw, 36px);
+        }
+
+        .about-site .about-section-heading p {
+            max-width: 650px;
+            margin-top: 10px;
+            color: var(--muted);
+        }
+
+        .about-site .about-intro {
+            display: grid;
+            grid-template-columns: .9fr 1.1fr;
+            align-items: center;
+            gap: 45px;
+        }
+
+        .about-site .about-photo {
+            min-height: 300px;
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            background:
+                linear-gradient(0deg,
+                    rgba(7,20,38,.25),
+                    transparent),
+                url("https://images.unsplash.com/photo-1497435334941-8c899ee9e8e9?auto=format&fit=crop&w=1000&q=80")
+                center/cover;
+        }
+
+        .about-site .about-copy h3 {
+            color: var(--cyan);
+            font-size: 25px;
+            margin-bottom: 15px;
+        }
+
+        .about-site .about-copy p {
+            color: var(--muted);
+            line-height: 1.9;
+            margin-bottom: 14px;
+        }
+
+        .about-site .about-highlight {
+            background: rgba(18,184,255,.045);
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .about-site .about-objectives {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 22px;
+        }
+
+        .about-site .about-objective {
+            padding: 25px 5px;
+            border-top: 1px solid var(--border);
+            transition: transform .25s;
+        }
+
+        .about-site .about-objective:hover {
+            transform: translateY(-5px);
+        }
+
+        .about-site .about-objective .about-symbol {
+            font-size: 32px;
+            color: var(--cyan);
+        }
+
+        .about-site .about-objective h3 {
+            color: var(--text);
+            font-size: 18px;
+            margin: 12px 0 8px;
+        }
+
+        .about-site .about-objective p {
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.8;
+        }
+
+        .about-site .about-workflow {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 20px;
+        }
+
+        .about-site .about-step {
+            position: relative;
+            padding: 22px 16px;
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            background: rgba(16,36,60,.55);
+        }
+
+        .about-site .about-step-number {
+            color: var(--cyan);
+            font-size: 27px;
+            font-weight: 800;
+        }
+
+        .about-site .about-step h3 {
+            margin: 10px 0;
+            color: var(--text);
+            font-size: 16px;
+        }
+
+        .about-site .about-step p {
+            color: var(--muted);
+            font-size: 13px;
+            line-height: 1.8;
+        }
+
+        .about-site .about-tech-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 18px;
+        }
+
+        .about-site .about-tech {
+            padding: 20px 12px;
+            text-align: center;
+            border-bottom: 2px solid var(--border);
+            background: rgba(16,36,60,.5);
+            transition: border-color .25s, transform .25s;
+        }
+
+        .about-site .about-tech:hover {
+            border-color: var(--cyan);
+            transform: translateY(-4px);
+        }
+
+        .about-site .about-tech-icon {
+            color: var(--cyan);
+            font-size: 30px;
+        }
+
+        .about-site .about-tech h3 {
+            color: var(--text);
+            font-size: 15px;
+            margin: 10px 0 5px;
+        }
+
+        .about-site .about-tech p {
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        .about-site .about-vision {
+            margin: 0 8% 65px;
+            padding: 40px;
+            border: 1px solid var(--border);
+            border-radius: 17px;
+            background:
+                linear-gradient(100deg,
+                    rgba(7,20,38,.97),
+                    rgba(10,55,75,.85)),
+                url("https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?auto=format&fit=crop&w=1400&q=80")
+                center/cover;
+        }
+
+        .about-site .about-vision h2 {
+            color: var(--cyan);
+            font-size: 27px;
+            margin-bottom: 13px;
+        }
+
+        .about-site .about-vision p {
+            max-width: 750px;
+            color: var(--muted);
+            line-height: 1.9;
+        }
+
+        .about-site .about-disclaimer {
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border);
+            font-size: 13px;
+        }
+
+        .about-site .about-actions {
+            margin-top: 22px;
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .about-site .about-footer {
+            padding: 28px 15px;
+            text-align: center;
+            background: rgba(4,12,24,.8);
+            border-top: 1px solid var(--border);
+        }
+
+        .about-site .about-footer strong {
+            color: var(--cyan);
+        }
+
+        .about-site .about-footer p {
+            color: var(--muted);
+            font-size: 13px;
+            margin-top: 5px;
+        }
+
+        @media (max-width: 850px) {
+            .about-site .about-hero,
+            .about-site .about-intro {
+                grid-template-columns: 1fr;
+            }
+
+            .about-site .about-energy {
+                font-size: 90px;
+            }
+
+            .about-site .about-objectives {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .about-site .about-workflow,
+            .about-site .about-tech-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 520px) {
+            .about-site .about-hero {
+                padding: 45px 22px;
+            }
+
+            .about-site .about-section {
+                padding: 42px 22px;
+            }
+
+            .about-site .about-stats,
+            .about-site .about-objectives,
+            .about-site .about-workflow,
+            .about-site .about-tech-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .about-site .about-vision {
+                margin: 0 20px 40px;
+                padding: 25px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+<div class="about-site">
+
+    <!-- Navigation -->
+    <nav>
+
+        <div class="nav-links">
+            <a href="/">Home</a>
+            <a href="/prediction">Prediction</a>
+            <a href="/dashboard">Dashboard</a>
+            <a href="/machine-learning">Machine Learning</a>
+            <a href="/about" class="active">About</a>
+        </div>
+
+        <span>
+            Hi, {{ request.session.get("username", "User") }}!
+        </span>
+
+        <form action="/logout" method="post">
+            <button class="button" type="submit">Logout</button>
+        </form>
+    </nav>
+
+    <!-- Hero -->
+    <header class="about-hero">
+        <div class="hero-content">
+            <span class="about-label">ABOUT OUR PROJECT</span>
+
+            <h1>
+                Understanding Energy.<br>
+                <span>Predicting Tomorrow.</span>
+            </h1>
+
+            <p>
+                Discover how our electricity consumption and bill
+                prediction system uses machine learning to estimate
+                household energy usage and support smarter decisions.
+            </p>
+
+            <a href="/prediction" class="button">
+                Explore Prediction →
+            </a>
+        </div>
+
+        <div class="hero-visual">
+            <div class="about-energy">
+                ⚡
+                <small>SMART ENERGY INSIGHTS</small>
+            </div>
+        </div>
+    </header>
+
+    <!-- Project highlights -->
+    <div class="about-stats">
+        <div class="about-stat">
+            <strong>Machine Learning</strong>
+            <span>Data-driven estimates</span>
+        </div>
+
+        <div class="about-stat">
+            <strong>Energy Awareness</strong>
+            <span>Understand usage patterns</span>
+        </div>
+
+        <div class="about-stat">
+            <strong>Bill Estimation</strong>
+            <span>Plan household expenses</span>
+        </div>
+    </div>
+
+    <!-- About the project -->
+    <section class="about-section">
+        <div class="about-intro">
+            <div class="about-photo"></div>
+
+            <div class="about-copy">
+                <div class="about-section-heading">
+                    <span>OUR PURPOSE</span>
+                    <h2>Making Electricity Usage Easier to Understand</h2>
+                </div>
+
+                <p>
+                    Electricity is an important part of everyday life.
+                    Understanding how much energy a household uses can
+                    help people plan their expenses and become more
+                    aware of their consumption habits.
+                </p>
+
+                <p>
+                    Our project combines household appliance usage,
+                    environmental information and previous electricity
+                    consumption to estimate future usage and bill amounts.
+                </p>
+
+                <p>
+                    The website presents these estimates in a simple
+                    format so users can explore their inputs and
+                    understand the prediction results.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Objectives -->
+    <section class="about-section about-highlight">
+        <div class="about-section-heading">
+            <span>WHAT WE AIM TO DO</span>
+            <h2>Our Project Objectives</h2>
+            <p>
+                Practical goals behind our electricity prediction system.
+            </p>
+        </div>
+
+        <div class="about-objectives">
+            <article class="about-objective">
+                <div class="about-symbol">⌁</div>
+                <h3>Understand Consumption</h3>
+                <p>
+                    Explore how household appliance usage and
+                    environmental conditions relate to electricity use.
+                </p>
+            </article>
+
+            <article class="about-objective">
+                <div class="about-symbol">◷</div>
+                <h3>Estimate Electricity Bills</h3>
+                <p>
+                    Provide an estimated bill amount based on the
+                    trained model and supplied information.
+                </p>
+            </article>
+
+            <article class="about-objective">
+                <div class="about-symbol">↗</div>
+                <h3>Support Better Decisions</h3>
+                <p>
+                    Help users become more aware of their consumption
+                    and consider ways to use energy efficiently.
+                </p>
+            </article>
+        </div>
+    </section>
+
+    <!-- Workflow -->
+    <section class="about-section">
+        <div class="about-section-heading">
+            <span>THE PROCESS</span>
+            <h2>How Our System Works</h2>
+            <p>
+                From household information to an estimated result,
+                the process has four main steps.
+            </p>
+        </div>
+
+        <div class="about-workflow">
+            <article class="about-step">
+                <div class="about-step-number">01</div>
+                <h3>Enter Information</h3>
+                <p>
+                    Provide temperature, humidity, rainfall,
+                    appliance usage and previous-month consumption.
+                </p>
+            </article>
+
+            <article class="about-step">
+                <div class="about-step-number">02</div>
+                <h3>Process the Data</h3>
+                <p>
+                    The application prepares your input in the format
+                    expected by the trained machine learning model.
+                </p>
+            </article>
+
+            <article class="about-step">
+                <div class="about-step-number">03</div>
+                <h3>Generate Estimates</h3>
+                <p>
+                    The models estimate electricity consumption
+                    and the corresponding bill amount.
+                </p>
+            </article>
+
+            <article class="about-step">
+                <div class="about-step-number">04</div>
+                <h3>Review Results</h3>
+                <p>
+                    Review the estimated values and use them to
+                    understand possible consumption patterns.
+                </p>
+            </article>
+        </div>
+    </section>
+
+    <!-- Technologies -->
+    <section class="about-section about-highlight">
+        <div class="about-section-heading">
+            <span>BUILT WITH</span>
+            <h2>Technologies Behind the Project</h2>
+            <p>
+                Each technology supports a different part of the application.
+            </p>
+        </div>
+
+        <div class="about-tech-grid">
+            <article class="about-tech">
+                <div class="about-tech-icon">Py</div>
+                <h3>Python</h3>
+                <p>Backend logic and model integration</p>
+            </article>
+
+            <article class="about-tech">
+                <div class="about-tech-icon">ML</div>
+                <h3>Scikit-learn</h3>
+                <p>Machine learning model training</p>
+            </article>
+
+            <article class="about-tech">
+                <div class="about-tech-icon">API</div>
+                <h3>FastAPI</h3>
+                <p>Web application backend</p>
+            </article>
+
+            <article class="about-tech">
+                <div class="about-tech-icon">Pd</div>
+                <h3>Pandas</h3>
+                <p>Dataset processing</p>
+            </article>
+
+            <article class="about-tech">
+                <div class="about-tech-icon">Jb</div>
+                <h3>Joblib</h3>
+                <p>Saving and loading trained models</p>
+            </article>
+
+            <article class="about-tech">
+                <div class="about-tech-icon">H5</div>
+                <h3>HTML & CSS</h3>
+                <p>Page structure and design</p>
+            </article>
+
+            <article class="about-tech">
+                <div class="about-tech-icon">J2</div>
+                <h3>Jinja2</h3>
+                <p>Dynamic HTML templates</p>
+            </article>
+
+            <article class="about-tech">
+                <div class="about-tech-icon">DB</div>
+                <h3>SQLite</h3>
+                <p>Application data storage, where configured</p>
+            </article>
+        </div>
+    </section>
+
+    <!-- Vision and disclaimer -->
+    <section class="about-vision">
+        <span class="about-label">LOOKING AHEAD</span>
+        <h2>Our Vision: Smarter Choices for Everyday Energy Use</h2>
+
+        <p>
+            We want to explore how data science and machine learning
+            can make electricity information easier to understand.
+            This academic project is a learning step towards building
+            practical, data-driven solutions for everyday problems.
+        </p>
+
+        <div class="about-disclaimer">
+            <strong>Important note</strong>
+            <p>
+                This is an academic project. Its models use a small
+                sample dataset, so predictions are estimates and may
+                differ from actual electricity usage and official
+                TNEB bills.
+            </p>
+        </div>
+
+        <div class="about-actions">
+            <a href="/" class="button secondary">← Back to Home</a>
+            <a href="/prediction" class="button">Try Prediction →</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="about-footer">
+        <strong>TNEB Electricity Usage and Bill Prediction</strong>
+        <p>Smarter Energy | Better Tomorrow</p>
+    </footer>
+
+</div>
+</body>
+</html>

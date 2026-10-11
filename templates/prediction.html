@@ -1,0 +1,91 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Predict Electricity Usage</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<nav class="main-nav">
+    <a href="/">Home</a>
+    <a href="/prediction">Prediction</a>
+    <a href="/dashboard">Dashboard</a>
+    <a href="/machine-learning">Machine Learning</a>
+    <a href="/about">About</a>
+
+    <span class="nav-user">
+        Hi, {{ request.session.get("username", "User") }}!
+    </span>
+
+    <form action="/logout" method="post" class="logout-form">
+        <button type="submit" class="logout-btn">Logout</button>
+    </form>
+</nav>
+
+<main class="form-container">
+    <h1>Electricity Prediction</h1>
+    <p>Enter the household and environmental details.</p>
+
+    {% if error %}
+    <div class="error">{{ error }}</div>
+    {% endif %}
+
+    <form action="/predict" method="post">
+
+        <label>Temperature (°C)</label>
+        <input type="number" name="temperature"
+               min="0" max="60" step="any" value="30" required>
+
+        <label>Humidity (%)</label>
+        <input type="number" name="humidity"
+               min="0" max="100" step="any" value="65" required>
+
+        <label>Rainfall (mm)</label>
+        <input type="number" name="rainfall"
+               min="0" step="any" value="2" required>
+
+        <label>Number of People in Home</label>
+        <input type="number" name="number_of_people"
+               min="1" step="1" value="4" required>
+
+        <label>Fan Usage (hours per day)</label>
+        <input type="number" name="fan_usage"
+               min="0" max="24" step="any" value="8" required>
+
+        <label>Refrigerator Usage (hours per day)</label>
+        <input type="number" name="refrigerator_hours"
+               min="0" max="24" step="any" value="24" required>
+
+        <label>Washing Machine Usage (hours per day)</label>
+        <input type="number" name="washing_machine"
+               min="0" max="24" step="any" value="1" required>
+
+        <label>TV Usage (hours per day)</label>
+        <input type="number" name="tv_usage"
+               min="0" max="24" step="any" value="4" required>
+
+        <label>Air Conditioner Usage (hours per day)</label>
+        <input type="number" name="ac_usage"
+               min="0" max="24" step="any" value="0" required>
+
+        <label>Freezer Usage (hours per day)</label>
+        <input type="number" name="freezer_usage"
+               min="0" max="24" step="any" value="0" required>
+
+        <label>Previous Month Usage (kWh)</label>
+        <input type="number" name="previous_usage"
+               min="0" step="any" value="180" required>
+
+        <button type="submit" class="button full-width">
+            Predict Usage &amp; Bill
+        </button>
+    </form>
+</main>
+
+<footer>TNEB Electricity Prediction</footer>
+
+</body>
+</html>
